@@ -42,7 +42,7 @@ elif [ "$1" = "final" ]; then
     pdflatex ../src/vortrag.tex && echo "first run finished" && \
     pdflatex ../src/vortrag.tex && echo "second run finished" && \
     evince vortrag.pdf && \
-    cp vortrag.pdf ../vortrag-agile-methoden.pdf
+    cp vortrag.pdf ../vortrag.pdf
 elif [ "$1" = "clean" ]; then
    echo "....cleaned"
 fi
