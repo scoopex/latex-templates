@@ -1,0 +1,54 @@
+#!/bin/bash
+
+if [ -z "$1" ];then
+   echo "$0 [dev|final|clean]"
+   exit 1
+fi
+
+WATCHDIR="$(dirname $(readlink -f $0 ))/src"
+PAGE=${2:-1}
+
+if (which evince &>/dev/null);then
+   PDF="evince"
+elif (which xpdf &>/dev/null);then
+   PDF="xpdf -geometry 1000x900 vortrag.pdf ${PAGE}"
+elif (which kpdf &>/dev/null);then
+   PDF="kpdf vortrag.pdf"
+else
+   PDF="acroread vortrag.pdf"
+fi
+export PDF
+
+mkdir -p tmp/
+rm -rf tmp/*
+cd tmp
+
+if [ "$1" = "dev" ]; then
+   while true;
+     do
+      pdflatex -interaction=nonstopmode -halt-on-error ../src/vortrag.tex \
+         && pdflatex -interaction=nonstopmode -halt-on-error ../src/vortrag.tex 
+
+      echo
+      echo "execute :"
+      echo "========================="
+      echo "evince tmp/*.pdf"
+      echo "========================="
+      echo
+      echo
+      inotifywait --exclude "..*.swp" -e modify -r $WATCHDIR
+     done
+elif [ "$1" = "final" ]; then
+    pdflatex ../src/vortrag.tex && echo "first run finished" && \
+    pdflatex ../src/vortrag.tex && echo "second run finished" && \
+    evince vortrag.pdf && \
+    cp vortrag.pdf ../vortrag-agile-methoden.pdf
+elif [ "$1" = "clean" ]; then
+   echo "....cleaned"
+fi
+
+SLIDES=`find ../src/parts/ -name "*.tex" -exec cat {} \;|grep -v "\frametitle"|grep "\frame"|wc -l`
+echo "Number of Slides : $SLIDES"
+echo "Minutes per slide: 3"
+echo "Minutes          : $(($SLIDES * 3))"
+

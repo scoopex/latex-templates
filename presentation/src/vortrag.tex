@@ -1,0 +1,142 @@
+
+\documentclass[10pt,compress]{beamer}
+\mode<presentation>
+
+\useoutertheme[subsection=false]{smoothbars}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage[ngerman]{babel}
+\usepackage{tikz}
+
+\usetheme{Warsaw}
+
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\secname\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+\usepackage{times}
+\usefonttheme{structurebold}
+
+
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps}
+\usepackage{amsmath,amssymb}
+
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{textcomp}
+\setbeamercovered{dynamic}
+
+\newcommand{\Lang}[1]{\operatorname{\text{\textsc{#1}}}}
+
+\newcommand{\Class}[1]{\operatorname{\mathchoice
+  {\text{\sf \small #1}}
+  {\text{\sf \small #1}}
+  {\text{\sf #1}}
+  {\text{\sf #1}}}}
+
+% Use "\Skipslide" to mark a frame to be skippable
+\newcommand{\Skipslide}[0]{
+	\begin{tikzpicture}[remember picture,overlay]
+		\node [xshift=-0.029*\textwidth,yshift=-0.165*\textheight] at (current page.north east)
+			{\includegraphics[width=0.05\textwidth]{../src/images/skip}};
+	\end{tikzpicture}
+}
+
+\usepackage{marvosym} % \MVRightarrow{}, ein Pfeil :-)
+
+\pgfdeclareimage[height=.70cm]{logo}{../src/images/logo}
+\pgfdeclareimage[height=.30cm]{skip}{../src/images/skip}
+
+\definecolor{myblue}{HTML}{1a8ac2}
+\hypersetup{colorlinks,linkcolor=gray,urlcolor=myblue}
+
+\setbeamercolor{structure}{fg=myblue!90!black}
+
+\def\subsectionname{\translate{subsubsection}}
+\def\insertsubsectionnumber{\arabic{subsubsection}}
+\setbeamertemplate{subsubsection page}
+{
+  \begin{center}
+      \vskip1em\par
+      \usebeamerfont{subsubsection title}\insertsubsubsection\par
+      \includegraphics[width=0.35\textwidth]{../src/images/logo}
+  \end{center}
+}
+
+\def\subsubsectionpage{\usebeamertemplate*{subsubsection page}}
+\AtBeginSubsubsection{\frame{\subsubsectionpage}}
+
+% Definiert wie Tief das PDF Register geht
+\setcounter{tocdepth}{4}
+
+\title{Lorem ipsum dolor}
+
+\author{John Author}
+\institute[]{%
+  Author Street 12\\
+  D-71686 Remseck\\
+  john@author.org 
+  }
+\date{Stuttgart, \today}
+
+
+\def\radius{0.96cm}
+\def\innerradius{0.85cm}
+
+
+\titlegraphic{\includegraphics[width=0.15\textwidth]{../src/images/logo} }
+\logo{\pgfuseimage{logo}}
+
+\AtBeginSection[]{\frame{\frametitle{Überblick}\tableofcontents[current,hideothersubsections]}}
+
+
+\lstset{ %
+  backgroundcolor=\color{white}, 
+  basicstyle=\footnotesize,       
+  breakatwhitespace=false,        
+  breaklines=true,                 
+  captionpos=b,                    
+  commentstyle=\color{mygreen},   
+  escapeinside={\%*}{*)},        
+  extendedchars=true,              
+  frame=single,                  
+  keywordstyle=\color{blue},       
+  language=Prolog,                
+  numbers=left,                    
+  numbersep=5pt,                   
+  numberstyle=\tiny\color{gray},
+  rulecolor=\color{black},        
+  showspaces=false,               
+  showstringspaces=false,          
+  showtabs=false,                  
+  stepnumber=2,                    
+  stringstyle=\color{mymauve},   
+  tabsize=2,                      
+  title=\lstname,                  
+  morekeywords={not,\},\{,preconditions,effects },            
+  deletekeywords={time}            
+}
+
+
+\begin{document}
+
+
+\frame{\titlepage}
+
+\input{../src/parts/einleitung.tex}
+\input{../src/parts/hauptteil.tex}
+\input{../src/parts/abschluss.tex}
+
+\end{document}
+
+
